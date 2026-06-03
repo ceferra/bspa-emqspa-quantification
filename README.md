@@ -163,19 +163,6 @@ BSPA and EMQSPA are **not significantly different from KDEy-HD** (Nemenyi test, 
 
 ---
 
-## Citation
-
-```bibtex
-@inproceedings{ferri2025bspa,
-  title     = {{BSPA} and {EMQSPA}: Competitive Quantification at Low Computational Cost},
-  author    = {Anonymous},
-  booktitle = {Workshop on Learning to Quantify (LQ 2025)},
-  year      = {2025}
-}
-```
-
----
-
 ## License
 
 MIT
