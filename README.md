@@ -3,18 +3,19 @@
 Code and experiments for the paper:
 
 > **BSPA and EMQSPA: Competitive Quantification at Low Computational Cost**  
-> Anonymous Author(s). *Workshop on Learning to Quantify*, 2025.
+> Cèsar Ferri et al. *Workshop on Learning to Quantify (LQ @ ECML-PKDD 2025)* — **under review**.  
+> 📄 [paper.pdf](paper.pdf)
 
 ---
 
 ## Overview
 
-This repository contains two lightweight quantifiers for binary prevalence estimation under label shift, built on top of [QuaPy](https://github.com/HLT-ISTI/QuaPy):
+This repository contains two lightweight quantifiers for binary prevalence estimation under label shift, built on top of [QuaPy](https://github.com/HLT-ISTI/QuaPy), and all the code needed to reproduce the experiments reported in the paper.
 
-- **BSPA** (*Beta-Smoothed Scaled Probability Average*): shrinks the SPA estimate toward the training prior with a single hyperparameter κ, providing explicit variance control at small test-set sizes.
-- **EMQSPA** (*EMQ warm-started from SPA*): initialises the Saerens et al. (2002) EM quantifier from the SPA estimate instead of the plain probability average, reducing EM iteration count while converging to the same fixed point.
+- **BSPA** (*Beta-Smoothed Scaled Probability Average*, §3.1 of the paper): shrinks the SPA estimate toward the training prior with a single hyperparameter κ, providing explicit variance control at small test-set sizes.
+- **EMQSPA** (*EMQ warm-started from SPA*, §3.2 of the paper): initialises the Saerens et al. (2002) EM quantifier from the SPA estimate instead of the plain probability average, reducing EM iteration count while converging to the same fixed point.
 
-Both methods achieve **statistically indistinguishable accuracy from the best-ranked KDEy-HD** (Nemenyi CD = 3.04; rank gap = 2.53) while being **59× faster to train** and **50× faster at inference**.
+Both methods achieve **statistically indistinguishable accuracy from the best-ranked KDEy-HD** (Nemenyi CD = 3.04; rank gap = 2.53) while being **59× faster to train** and **50× faster at inference** (see §5 of the paper).
 
 ---
 
@@ -93,7 +94,8 @@ Results are saved as `.pkl` files and figures are written to `figures/`.
 ## Datasets
 
 30 binary UCI datasets loaded via QuaPy's built-in collection (`fetch_UCIBinaryLabelledCollection`).  
-Multi-class datasets are binarised by QuaPy (one-vs-rest by class index).
+Multi-class datasets are binarised by QuaPy (one-vs-rest by class index).  
+Full description and experimental justification in §4 of the [paper](paper.pdf).
 
 | # | Dataset ID | Full Name | N | Features | π(+) |
 |---|-----------|-----------|--:|:--------:|-----:|
@@ -136,6 +138,8 @@ All datasets are publicly available from the [UCI Machine Learning Repository](h
 
 ## Experimental protocol
 
+Full details in §4 of the [paper](paper.pdf).
+
 - **Splits**: 5 independent stratified 70/30 train/test splits per dataset
 - **Classifier**: Logistic Regression with Standard Scaling (LR+SS)
 - **Validation split**: 40% of training data held out for SPA calibration (val_split=0.4)
@@ -147,6 +151,8 @@ All datasets are publicly available from the [UCI Machine Learning Repository](h
 ---
 
 ## Main results
+
+Full results, CD diagram, Pareto analysis, and ablation studies in §5–6 of the [paper](paper.pdf).
 
 | Rank | Method | Avg MSE | Fit time (s) | Predict time (ms/sample) |
 |------|--------|--------:|-------------:|------------------------:|

@@ -1,11 +1,12 @@
 __pycache__/
 *.py[cod]
 *.pkl
-*.pdf
-*.png
 figures/
 figures_timed/
 logs/
 quant_env/
 .env
 *.out
+# Allow paper.pdf explicitly
+!paper.pdf
+*.png
