@@ -167,3 +167,47 @@ class EMQSPAQuantifier(BaseQuantifier):
         for k, v in p.items():
             setattr(self, k, v)
         return self
+
+
+class PACCFixed(BaseQuantifier):
+    def __init__(self, classifier=None, val_split=0.4):
+        self.classifier = classifier
+        self.val_split = val_split
+
+    def fit(self, X, y):
+        clf = (
+            clone(self.classifier)
+            if self.classifier is not None
+            else LogisticRegression(max_iter=1000, random_state=0)
+        )
+        lc = LabelledCollection(X, y)
+        train_lc, val_lc = lc.split_stratified(
+            1.0 - self.val_split, random_state=0
+        )
+        X_tr, y_tr = train_lc.Xy
+        X_val, y_val = val_lc.Xy
+        self.clf_ = clf.fit(X_tr, y_tr)
+        vp = self.clf_.predict_proba(X_val)[:, 1]
+        pos = y_val == 1
+        neg = y_val == 0
+        self.mu_pos_ = float(vp[pos].mean()) if pos.sum() > 0 else 1.0
+        self.mu_neg_ = float(vp[neg].mean()) if neg.sum() > 0 else 0.0
+        return self
+
+    def predict(self, X):
+        probs = self.clf_.predict_proba(X)[:, 1]
+        pa = float(probs.mean())
+        d = self.mu_pos_ - self.mu_neg_
+        if abs(d) > 1e-9:
+            pi_pos = float(np.clip((pa - self.mu_neg_) / d, 0, 1))
+        else:
+            pi_pos = float(np.clip(pa, 0, 1))
+        return np.array([1.0 - pi_pos, pi_pos])
+
+    def get_params(self, deep=True):
+        return {"classifier": self.classifier, "val_split": self.val_split}
+
+    def set_params(self, **p):
+        for k, v in p.items():
+            setattr(self, k, v)
+        return self

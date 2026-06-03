@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler
 import quapy.method.aggregative as qpa
 from quapy.method.aggregative import KDEyHD
 from datasets import load_datasets
-from quantifiers import BSPAQuantifier
+from quantifiers import BSPAQuantifier, PACCFixed
 
 warnings.filterwarnings("ignore")
 

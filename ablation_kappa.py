@@ -16,7 +16,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import quapy.method.aggregative as qpa
 from datasets import load_datasets
-from quantifiers import BSPAQuantifier
+from quantifiers import BSPAQuantifier, PACCFixed
 
 warnings.filterwarnings("ignore")
 
@@ -55,7 +55,7 @@ def run():
             X_tr, y_tr = tr_lc.Xy
 
             # PACC
-            q = qpa.PACC(make_clf(), val_split=VAL_SPLIT)
+            q = PACCFixed(make_clf(), val_split=VAL_SPLIT)
             try:
                 q.fit(X_tr, y_tr)
                 results["PACC"][ds_name].append(

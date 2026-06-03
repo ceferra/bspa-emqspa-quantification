@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 
 import quapy.method.aggregative as qpa
 
-from quantifiers import BSPAQuantifier, EMQSPAQuantifier
+from quantifiers import BSPAQuantifier, EMQSPAQuantifier, PACCFixed
 
 # --------------------------------------------------------------------------- #
 # Optional dependencies — silently degrade if not available
@@ -61,7 +61,7 @@ def make_methods():
     m["CC"]   = qpa.CC(make_clf())
     m["PCC"]  = qpa.PCC(make_clf())
     m["ACC"]  = qpa.ACC(make_clf(),  val_split=VAL_SPLIT)
-    m["PACC"] = qpa.PACC(make_clf(), val_split=VAL_SPLIT)
+    m["PACC"] = PACCFixed(make_clf(), val_split=VAL_SPLIT)
     m["EMQ"]  = qpa.EMQ(make_clf())
     m["HDy"]  = qpa.HDy(make_clf(),  val_split=VAL_SPLIT)
     m["MS"]   = qpa.MS(make_clf(),   val_split=VAL_SPLIT)
